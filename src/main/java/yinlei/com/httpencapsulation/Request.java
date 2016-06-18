@@ -21,15 +21,16 @@ public class Request {
         this.mICallBack = iCallBack;
     }
 
-    public enum RequestMethod{POST,GET,DELETE,PUT}
-    RequestMethod mMetohd ;
+    public enum RequestMethod {POST, GET, DELETE, PUT}
 
-    public Request (String url){
+    RequestMethod mMetohd;
+
+    public Request(String url) {
         this.url = url;
         this.mMetohd = RequestMethod.GET;
     }
 
-    public Request (String url,RequestMethod method){
+    public Request(String url, RequestMethod method) {
         this.url = url;
         this.mMetohd = method;
     }

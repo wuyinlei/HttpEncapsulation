@@ -32,25 +32,6 @@ public class TestHttp extends InstrumentationTestCase {
         Log.e("ruolan", "testHttpPost" + result);
     }
 
-    public void testHttpPostOnSubThread() throws Throwable {
-        String url = "http://api.www.com/core/?service=user.login";
-        String content = "account=ruolan&password=123456";
-        Request request = new Request(url, Request.RequestMethod.POST);
-        request.url = url;
-        request.content = content;
-        request.setCallBack(new ICallBack() {
-            @Override
-            public void onSuccess(String result) {
-                Log.e("ruolan", "testHttpPost" + result);
-            }
 
-            @Override
-            public void onFailure(Exception e) {
-                e.printStackTrace();
-            }
-        });
-        RequestTask task = new RequestTask(request);
-        task.execute();
-    }
 
 }

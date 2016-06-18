@@ -1,8 +1,6 @@
 package yinlei.com.httpencapsulation;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,16 +18,14 @@ import java.util.Map;
 public class HttpUrlConnectionUtils {
 
 
-    public static String execute(Request request) throws IOException {
+    public static HttpURLConnection execute(Request request) throws IOException {
         switch (request.mMetohd){
             case GET:
             case DELETE:
-                get(request);
-                break;
+                return get(request);
             case POST:
             case PUT:
-                post(request);
-                break;
+                return post(request);
             default:
 
                 break;
@@ -38,14 +34,14 @@ public class HttpUrlConnectionUtils {
     }
 
 
-    public static String get(Request request) throws IOException {
+    public static HttpURLConnection get(Request request) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(request.url).openConnection();
         conn.setRequestMethod(request.mMetohd.name());
         conn.setConnectTimeout(15 * 3000);
         conn.setReadTimeout(15 * 3000);
         addHeaders(conn,request.headers);
 
-        int status = conn.getResponseCode();
+       /* int status = conn.getResponseCode();
         if (status == HttpURLConnection.HTTP_OK) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             InputStream is = conn.getInputStream();
@@ -58,12 +54,12 @@ public class HttpUrlConnectionUtils {
             out.flush();
             out.close();
             return new String(out.toByteArray());
-        }
+        }*/
 
-        return null;
+        return conn;
     }
 
-    public static String post(Request request) throws IOException {
+    public static HttpURLConnection post(Request request) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(request.url).openConnection();
         conn.setRequestMethod(request.mMetohd.name());
         conn.setConnectTimeout(15 * 3000);
@@ -75,23 +71,7 @@ public class HttpUrlConnectionUtils {
 
         addHeaders(conn, request.headers);
 
-
-        int status = conn.getResponseCode();
-        if (status == HttpURLConnection.HTTP_OK) {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream is = conn.getInputStream();
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = is.read(buffer)) != -1) {
-                out.write(buffer, 0, len);
-            }
-            is.close();
-            out.flush();
-            out.close();
-            return new String(out.toByteArray());
-        }
-
-        return null;
+        return conn;
     }
 
     private static void addHeaders(HttpURLConnection conn, Map<String, String> headers) {
